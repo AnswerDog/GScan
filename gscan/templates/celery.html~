@@ -1,0 +1,9 @@
+{% block content %}
+<form action="/test" method="post">
+	taskid:<input type="text" name="taskid">
+	target:<input type="text" name="target">
+	<input type="submit" value="scan">
+</form>
+{{ t }}
+
+{% endblock %}

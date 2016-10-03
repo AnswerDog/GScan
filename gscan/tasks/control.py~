@@ -1,0 +1,30 @@
+from __future__ import absolute_import
+
+from core import app
+
+from time import sleep
+
+class Console(object):
+	def __init__(self,task=None):
+		self.__app = app
+
+	@property
+	def app(self):
+		return self.__app
+
+	@property
+	def control(self):
+		return self.app.control
+
+	@property
+	def broadcast(self):
+		return self.app.control.broadcast
+
+	def add_consumer(self,queue_name,destination=None):
+		msg = self.broadcast('add_consumer',{'queue':queue_name},destination=destination,reply=True)
+		return msg
+
+	def cancel_consumer(self,queue_name,destination=None):
+		msg = self.broadcast('cancel_consumer',{'queue':queue_name},destination=destination,reply=True)
+		return msg
+

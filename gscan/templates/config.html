@@ -1,0 +1,122 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en"><!--<![endif]--> 
+	<head>
+		<meta charset="utf-8">
+		<title>Home - Gscan</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link href="/static/css/site.css" rel="stylesheet">
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> <a class="brand" href="/index">Gscan</a>
+						<div class="nav-collapse">
+							<ul class="nav">
+								<li class="active">
+									<a href="/index">Home</a>
+								</li>
+							</ul>
+							<ul class="nav pull-right">
+								<li>
+									<a href="">Admin</a>
+								</li>
+								<li>
+									<a href="/logout">Logout</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			<div class="span3">
+					<div class="well" style="padding: 8px 0;">
+						<ul class="nav nav-list">
+							<li class="nav-header">
+								Gscan
+							</li>
+							<li>
+								<a href="/index"><i class="icon-white icon-home"></i> 任务列表</a>
+							</li>
+							<li>
+								<a href="/tasks"><i class="icon-check"></i> 添加任务</a>
+							</li>
+							<li>
+								<a href="/plugin"><i class="icon-file"></i> 插件管理</a>
+							</li>
+							<li class="divider">
+							</li>
+							<li>
+								<a href="/profile"><i class="icon-user"></i> 个人信息</a>
+							</li>
+							<li class="active">
+								<a href="/config"><i class="icon-cog"></i> 扫描设置</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="span9">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>
+									配置名称
+								</th>
+								<th>
+									配置描述
+								</th>
+								<th>
+									配置端口
+								</th>
+								<th>
+									创建时间
+								</th>
+								<th>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for config in config_list %}
+							<tr>
+								<td>
+									{{ config.name }}
+								</td>
+								<td>
+									{{ config.description}}
+								</td>
+								<td>
+									{{ config.ports | slice:"60" }}
+								</td>
+								<td>
+									{{ config.createtime }}
+								</td>
+								<td>
+									<a href="/cedit/{{ config.id }}" class="view-link">Edit</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<div  style="position: relative;width: 970px;height: 30px;margin: 0 auto;">
+						<input type=button onclick="window.open('/cadd','_self')" class="btn btn-primary" style="position: absolute;top: 0;right: 100px;width: 80px;height: 30px;" value="New">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/site.js"></script>
+	</body>
+</html>
+
+
+
+

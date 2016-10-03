@@ -1,0 +1,5 @@
+paramiko
+redis
+pymysql
+pymongo==2.4
+ftplib

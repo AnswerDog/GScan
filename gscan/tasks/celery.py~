@@ -1,0 +1,15 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+from __future__ import absolute_import
+from celery import Celery, platforms
+
+platforms.C_FORCE_ROOT = True
+
+app = Celery('tasks', backend='redis://127.0.0.1:6379/1?new_join', broker='redis://127.0.0.1:6379/0', include=['gscan.tasks.tasks'])
+app.conf.update(
+    CELERY_TASK_RESULT_EXPIRES=360000,
+    #CELERYD_POOL_RESTARTS=True,
+    CELERY_TIMEZONE='Asia/Shanghai',
+)
+
