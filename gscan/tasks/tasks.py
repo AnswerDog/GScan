@@ -23,7 +23,7 @@ ManageTask Module
 """
 
 
-
+@app.task(bind=True, default_retry_delay=30, max_retries=3)
 @app.task
 def manage_task(task_id):
 	IP_LIST[task_id] = []
@@ -234,13 +234,12 @@ def masscan_go(taskid, ip):
 		seviceport = []
 		plugin_list = Plugins.objects.filter(type = 'Service').all()
 		for p in plugin_list:
-			seviceport.append(p.port)
-		for rs in rs_list:
-			if rs[1] in seviceport:
-				plugin = Plugins.objects.get(port=rs[1])
-				plugin_path = plugin.path
-			else:
-				plugin_path = ''
+			for rs in rs_list:
+				if rs[1] in p.port.split(','):
+					plugin = Plugins.objects.get(port=p.port)
+					plugin_path = plugin.path
+				else:
+				    plugin_path = ''
 			service_rs.append(Service(taskid = taskid, ip = rs[0], port = rs[1], target = '', pluginpath= plugin_path, status = ''))
 		Service.objects.bulk_create(service_rs)
 		MasTmp.objects.filter(taskid = taskid, ip = ip).update(status='2')
@@ -271,9 +270,11 @@ def masscan_task(task_id, ip):
 	rs_xml = path + '/gscan/tasks/masscanxml/' + task_id + '_' + ip + '.xml'
 	task = Tasks.objects.get(taskid = task_id)
 	config = Config.objects.get(id = task.config)
-	cmdline = './masscan %s/24 -p%s -oX %s' % (ip, config.ports, rs_xml)
+	#cmdline = './masscan %s/24 -p%s -oX %s' % (ip, config.ports, rs_xml)
+	cmdline = 'masscan %s/24 -p%s -oX %s' % (ip, config.ports, rs_xml)#kali
 	MasTmp.objects.filter(taskid = task_id, ip = ip).update(status='1')
-	subprocess.Popen(cmdline,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=run_script_path)
+	#subprocess.Popen(cmdline,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=run_script_path)
+	subprocess.Popen(cmdline,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)#cwd=run_script_path) kali!!
 
 
 """
